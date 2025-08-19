@@ -1,151 +1,115 @@
-// Contraseña predefinida
-const CONTRASENA = "22125"; 
+// ===============================
+// 📌 CONFIGURACIÓN
+// ===============================
 
-let contrasenaIngresada = "";
+// Código secreto para abrir la caja fuerte
+const codigoCorrecto = "1234";
 
-// ==========================
-// FUNCIONES DE CONTRASEÑA
-// ==========================
-function agregarNumero(numero) {
-    const textoCodigo = document.getElementById('texto-codigo');
-    const display = document.querySelector('.display');
+// Fecha de inicio de la relación (para el contador ❤️)
+const fechaInicio = new Date("2023-06-01T00:00:00");
 
-    if (textoCodigo.textContent === 'Contraseña') {
-        textoCodigo.textContent = '';
+// ===============================
+// 📌 VARIABLES
+// ===============================
+const textoCodigo = document.getElementById("texto-codigo");
+const botones = document.querySelectorAll(".botones button");
+const seccionContador = document.getElementById("seccion-contador");
+const seccionGaleria = document.querySelector(".seccion-galeria");
+const seccionCarta = document.querySelector(".seccion-carta");
+const loadingCarta = document.getElementById("loadingCarta");
+
+let inputCodigo = "";
+
+// ===============================
+// 📌 MANEJO DEL TECLADO
+// ===============================
+botones.forEach(boton => {
+  boton.addEventListener("click", () => {
+    const valor = boton.textContent;
+
+    if (valor === "←") {
+      inputCodigo = inputCodigo.slice(0, -1);
+    } else if (valor === "✔") {
+      if (inputCodigo === codigoCorrecto) {
+        document.querySelector(".container").style.display = "none";
+        seccionContador.style.display = "block";
+        iniciarContador();
+      } else {
+        alert("❌ Código incorrecto, intenta de nuevo.");
+        inputCodigo = "";
+      }
+    } else {
+      if (inputCodigo.length < 6) {
+        inputCodigo += valor;
+      }
     }
 
-    textoCodigo.textContent += '*';
-    contrasenaIngresada += numero;
-    display.classList.add('modo-password');
+    textoCodigo.textContent = inputCodigo;
+  });
+});
 
-    if (contrasenaIngresada.length === CONTRASENA.length) {
-        if (contrasenaIngresada === CONTRASENA) {
-            mostrarContador(); 
-        } else {
-            alert("Contraseña incorrecta. Inténtalo de nuevo."); 
-            textoCodigo.textContent = 'Contraseña';
-            display.classList.remove('modo-password');
-            contrasenaIngresada = "";
-        }
-    }
-}
-
-function mostrarContador() {
-    const container = document.querySelector('.container');
-    const seccionContador = document.getElementById('seccion-contador');
-
-    container.style.display = 'none';
-    seccionContador.style.display = 'block';
-}
-
-// ==========================
-// CONTADOR
-// ==========================
-function actualizarContador() {
-    const fechaInicio = new Date('2001-06-02'); 
+// ===============================
+// 📌 CONTADOR
+// ===============================
+function iniciarContador() {
+  setInterval(() => {
     const ahora = new Date();
+    const diferencia = ahora - fechaInicio;
 
-    let anos = ahora.getFullYear() - fechaInicio.getFullYear();
-    let meses = ahora.getMonth() - fechaInicio.getMonth();
-    let dias = ahora.getDate() - fechaInicio.getDate();
-    let horas = ahora.getHours() - fechaInicio.getHours();
-    let minutos = ahora.getMinutes() - fechaInicio.getMinutes();
-    let segundos = ahora.getSeconds() - fechaInicio.getSeconds();
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+    const segundos = Math.floor((diferencia / 1000) % 60);
 
-    if (dias < 0) {
-        meses--;
-        const ultimoDiaMesAnterior = new Date(ahora.getFullYear(), ahora.getMonth(), 0).getDate();
-        dias += ultimoDiaMesAnterior;
+    // Línea superior
+    document.getElementById("dias").textContent = dias;
+    document.getElementById("horas").textContent = horas;
+    document.getElementById("minutos").textContent = minutos;
+    document.getElementById("segundos").textContent = segundos;
+
+    // Cajas inferiores
+    document.getElementById("diasBox").textContent = dias;
+    document.getElementById("horasBox").textContent = horas;
+    document.getElementById("minutosBox").textContent = minutos;
+    document.getElementById("segundosBox").textContent = segundos;
+  }, 1000);
+}
+
+// ===============================
+// 📌 NAVEGACIÓN ENTRE SECCIONES
+// ===============================
+
+// Botón de "Ver galería"
+document.querySelector(".boton-contador").addEventListener("click", () => {
+  seccionContador.style.display = "none";
+  seccionGaleria.style.display = "block";
+});
+
+// Botón de "Ver carta"
+document.querySelector(".boton-transparente").addEventListener("click", () => {
+  seccionGaleria.style.display = "none";
+  loadingCarta.style.display = "flex";
+
+  // Simular carga de la carta
+  let progreso = 0;
+  const barra = document.querySelector(".loading-bar");
+
+  const interval = setInterval(() => {
+    progreso += 10;
+    barra.style.width = progreso + "%";
+
+    if (progreso >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        loadingCarta.classList.add("hidden");
+        seccionCarta.style.display = "block";
+      }, 500);
     }
+  }, 300);
+});
 
-    if (meses < 0) {
-        anos--;
-        meses += 12;
-    }
-
-    document.getElementById('anos').textContent = anos;
-    document.getElementById('meses').textContent = meses;
-    document.getElementById('dias').textContent = dias;
-    document.getElementById('horas').textContent = horas;
-    document.getElementById('minutos').textContent = minutos;
-    document.getElementById('segundos').textContent = segundos;
-}
-
-setInterval(actualizarContador, 1000);
-
-// ==========================
-// GALERÍA
-// ==========================
-function mostrarGaleria() {
-    document.getElementById('seccion-contador').style.display = 'none';
-    document.getElementById('seccion-carta').style.display = 'none';
-    document.getElementById('seccion-galeria').style.display = 'block';
-}
-
-// ==========================
-// CARTA (con pantalla de carga)
-// ==========================
-function mostrarCarta() {
-    const seccionGaleria = document.getElementById('seccion-galeria');
-    const seccionCarta = document.getElementById('seccion-carta');
-
-    // Crear pantalla de carga temporal
-    const loadingScreen = document.createElement('div');
-    loadingScreen.classList.add('loading-screen');
-    loadingScreen.innerHTML = `
-        <div class="loading-heart">♥</div>
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="loadingBar"></div>
-        </div>
-        <div class="loading-text">Cargando carta...</div>
-    `;
-    document.body.appendChild(loadingScreen);
-
-    const loadingBar = loadingScreen.querySelector('#loadingBar');
-    let progress = 0;
-
-    function updateProgress() {
-        progress += Math.random() * 15;
-        if (progress > 100) progress = 100;
-        loadingBar.style.width = progress + '%';
-
-        if (progress < 100) {
-            setTimeout(updateProgress, 100 + Math.random() * 200);
-        } else {
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    loadingScreen.remove();
-
-                    // Ocultar la galería y mostrar carta
-                    seccionGaleria.style.display = 'none';
-                    seccionCarta.style.display = 'block';
-
-                    // =====================
-                    // INICIAR CORAZONCITOS AQUÍ
-                    // =====================
-                    setInterval(lanzarCorazones, 800);
-
-                }, 500);
-            }, 300);
-        }
-    }
-
-    updateProgress();
-}
-
-// ==========================
-// GENERADOR DE CORAZONCITOS
-// ==========================
-function lanzarCorazones() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.textContent = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 15 + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
-}
+// Botón de volver en carta
+document.querySelector(".seccion-carta button").addEventListener("click", () => {
+  seccionCarta.style.display = "none";
+  seccionContador.style.display = "block";
+});
