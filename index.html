@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caja Fuerte de Amor</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .container,
+    #seccion-contador,
+    #seccion-galeria,
+    #seccion-carta,
+    #pantalla-carga-carta {
+      display: none;
+    }
+
+    .container {
+      display: block;
+    }
+
+    .botones button {
+      width: 40px;
+      height: 40px;
+      margin: 5px;
+      font-size: 18px;
+    }
+
+    /* Botón de la carta */
+    .boton-carta {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Ajustes de carta */
+    .carta-contenedor {
+      position: relative;
+      max-width: 90%;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      text-align: justify;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-y: auto;
+      max-height: 80vh; /* IMPORTANTE: nunca se corta en móvil */
+    }
+
+    .titulo-carta {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    /* corazones animados */
+    .corazones {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .corazon {
+      position: absolute;
+      bottom: -20px;
+      color: #ff4d6d;
+      font-size: 20px;
+      animation: subir 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes subir {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* ============================= */
+    /* PANTALLA DE CARGA DE LA CARTA */
+    /* ============================= */
+    .pantalla-carga {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #111;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Dancing Script', cursive;
+      z-index: 9999;
+    }
+
+    .loader {
+      text-align: center;
+    }
+
+    .corazon-loader {
+      font-size: 50px;
+      animation: latido 1s infinite;
+    }
+
+    @keyframes latido {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    .barra-carga {
+      width: 200px;
+      height: 10px;
+      background-color: #333;
+      border-radius: 5px;
+      margin: 15px auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .barra-carga::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: red;
+      animation: cargar 3s linear forwards;
+    }
+
+    @keyframes cargar {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Contenedor de la caja fuerte -->
+  <div class="container">
+    <div class="caja-fuerte">
+      <div class="imagen">
+        <img src="https://i.pinimg.com/236x/75/18/6a/75186af121ff58b057130c4770da6301.jpg" alt="">
+      </div>
+      <div class="teclado">
+        <div class="display" id="display">
+          <span id="texto-codigo">Contraseña</span>
+        </div>
+        <div class="botones">
+          <button onclick="agregarNumero('1')">1</button>
+          <button onclick="agregarNumero('2')">2</button>
+          <button onclick="agregarNumero('3')">3</button>
+          <button onclick="agregarNumero('4')">4</button>
+          <button onclick="agregarNumero('5')">5</button>
+          <button onclick="agregarNumero('6')">6</button>
+          <button onclick="agregarNumero('7')">7</button>
+          <button onclick="agregarNumero('8')">8</button>
+          <button onclick="agregarNumero('9')">9</button>
+          <button onclick="borrarNumero()">←</button>
+          <button onclick="agregarNumero('0')">0</button>
+          <button onclick="verificarCodigo()">✔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección del contador -->
+  <div id="seccion-contador" class="seccion-contador">
+    <div class="cabecera">
+      <img src="IMG-20250819-WA0077.jpg" alt="" class="imagen-cabecera">
+      <div class="titulo-cabecera">
+        <h1>Nuestro Tiempo Juntos</h1>
+      </div>
+    </div>
+
+    <div class="contador">
+      <div class="linea-tiempo" id="linea-inferior">
+        <div class="unidad-tiempo">
+          <span id="años">0</span>
+          <p>Años</p>
+        </div>
+        <div class="unidad-tiempo">
+          <span id="meses">0</span>
+          <p>Meses</p>
+        </div>
+        <div class="unidad-tiempo">
+          <span id="dias">0</span>
+          <p>Días</p>
+        </div>
+        <div class="unidad-tiempo">
+          <span id="horas">0</span>
+          <p>Horas</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="boton-contador" onclick="mostrarGaleria()">Tú & Yo</button>
+  </div>
+
+  <!-- Sección de la galería -->
+  <div id="seccion-galeria" class="seccion-galeria">
+    <div class="titulo-galeria">
+      <h1>Nuestras Fotos</h1>
+    </div>
+    <div class="fotos">
+      <img src="IMG-20250819-WA0076.jpg" alt="Foto 1">
+      <img src="IMG-20250819-WA0066.jpg" alt="Foto 2">
+      <img src="IMG-20250819-WA0069.jpg" alt="Foto 3">
+      <img src="IMG-20250819-WA0071.jpg" alt="Foto 4">
+      <img src="IMG-20250819-WA0073.jpg" alt="Foto 5">
+      <img src="IMG-20250819-WA0074.jpg" alt="Foto 6">
+    </div>
+
+    <button class="boton-transparente boton-contador" onclick="mostrarCarta()">Ver Carta</button>
+  </div>
+
+  <!-- Pantalla de carga SOLO para la carta -->
+  <div id="pantalla-carga-carta" class="pantalla-carga">
+    <div class="loader">
+      <div class="corazon-loader">❤️</div>
+      <div class="barra-carga"></div>
+      <p>Cargando carta...</p>
+    </div>
+  </div>
+
+  <!-- Sección de la carta -->
+  <div id="seccion-carta" class="seccion-carta">
+    <div class="titulo-carta">
+      <h1>💌 Carta para Ti 💌</h1>
+    </div>
+
+    <!-- Recuadro de la carta -->
+    <div class="carta-contenedor">
+      <div class="corazones" id="corazones"></div> <!-- corazones flotando -->
+      <div class="contenido-carta">
+        <p>
+          Desde aquel <b>22 de enero</b>, cuando me acompañaste a sacar el carnet, mi vida cambió para siempre.
+          Ese día entendí que contigo quería vivir todos mis momentos importantes, porque a tu lado todo tiene más
+          sentido.
+        </p>
+
+        <p>
+          Y cómo olvidar nuestro <b>primer beso</b>... no me lo esperaba para nada 😅.
+          Me pareció un poco extraño porque te emocionaste como si ya fuéramos pareja y me besaste con tal naturalidad
+          jajajaja,
+          pero al mismo tiempo fue tierno y mágico. Ya me lo veía venir, y aun así lo recuerdo como el inicio de todo lo
+          que ahora somos.
+        </p>
+
+        <p>
+          A veces peleamos o discutimos, pero incluso en esos momentos seguimos buscándonos,
+          porque lo nuestro no es frágil, sino fuerte y real. Y si algo tengo claro, es que yo te elijo a ti, siempre.
+          💕
+        </p>
+
+        <p>
+          Gracias por cada recuerdo, cada risa y cada caricia que me hacen sentir la persona más amada del mundo.
+          Te amo con lo que fui, lo que soy y lo que seré, de una forma infinita, y siempre lo haré.
+        </p>
+
+        <p>
+          Siempre tuya,<br>
+          <b>Tu loquita de confianza, Maridiani 💞</b>
+        </p>
+      </div>
+    </div>
+
+    <!-- Botón SOLO en la carta -->
+    <div class="boton-carta">
+      <button class="boton-transparente boton-contador" onclick="mostrarGaleria()">Volver a la Galería</button>
+    </div>
+  </div>
+
+  <!-- Script funcional -->
+  <script>
+    const textoCodigo = document.getElementById("texto-codigo");
+    let codigoIngresado = "";
+    const CONTRASENA = "22125";
+
+    function agregarNumero(num) {
+      codigoIngresado += num;
+      textoCodigo.textContent = "*".repeat(codigoIngresado.length);
+    }
+
+    function borrarNumero() {
+      codigoIngresado = codigoIngresado.slice(0, -1);
+      textoCodigo.textContent = codigoIngresado.length ? "*".repeat(codigoIngresado.length) : "Contraseña";
+    }
+
+    function verificarCodigo() {
+      if (codigoIngresado === CONTRASENA) {
+        alert("¡Contraseña correcta! 💖");
+        document.querySelector(".container").style.display = "none";
+        document.getElementById("seccion-contador").style.display = "block";
+        codigoIngresado = "";
+        textoCodigo.textContent = "Contraseña";
+      } else {
+        alert("Contraseña incorrecta ❌");
+        codigoIngresado = "";
+        textoCodigo.textContent = "Contraseña";
+      }
+    }
+
+    function mostrarGaleria() {
+      document.getElementById("seccion-contador").style.display = "none";
+      document.getElementById("seccion-carta").style.display = "none";
+      document.getElementById("pantalla-carga-carta").style.display = "none";
+      document.getElementById("seccion-galeria").style.display = "block";
+    }
+
+    function mostrarCarta() {
+      document.getElementById("seccion-galeria").style.display = "none";
+      document.getElementById("pantalla-carga-carta").style.display = "flex";
+
+      setTimeout(() => {
+        document.getElementById("pantalla-carga-carta").style.display = "none";
+        document.getElementById("seccion-carta").style.display = "block";
+      }, 3000);
+    }
+
+    // ============================
+    // CONTADOR
+    // ============================
+    function actualizarContador() {
+      const fechaInicio = new Date("2025-01-22T13:30:00");
+      const ahora = new Date();
+
+      let diff = ahora - fechaInicio;
+
+      let diasTotales = Math.floor(diff / (1000 * 60 * 60 * 24));
+      let horasTotales = Math.floor(diff / (1000 * 60 * 60));
+
+      let años = ahora.getFullYear() - fechaInicio.getFullYear();
+      let meses = ahora.getMonth() - fechaInicio.getMonth();
+      if (ahora.getDate() < fechaInicio.getDate()) {
+        meses--;
+      }
+      if (meses < 0) {
+        años--;
+        meses += 12;
+      }
+
+      document.getElementById("años").textContent = años;
+      document.getElementById("meses").textContent = meses;
+      document.getElementById("dias").textContent = diasTotales;
+      document.getElementById("horas").textContent = horasTotales;
+    }
+
+    setInterval(actualizarContador, 1000);
+    actualizarContador();
+
+    // ============================
+    // CORAZONES ANIMADOS
+    // ============================
+    function lanzarCorazones() {
+      const contenedor = document.getElementById("corazones");
+      const corazon = document.createElement("div");
+      corazon.classList.add("corazon");
+      corazon.innerHTML = "❤️";
+      corazon.style.left = Math.random() * 100 + "%";
+      corazon.style.fontSize = Math.random() * 20 + 15 + "px";
+      corazon.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      contenedor.appendChild(corazon);
+
+      setTimeout(() => {
+        corazon.remove();
+      }, 6000);
+    }
+
+    setInterval(lanzarCorazones, 700);
+  </script>
+   ...
+  </script>
+</body>
+</html>

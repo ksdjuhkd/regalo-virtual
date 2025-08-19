@@ -1,0 +1,421 @@
+@import url("https://fonts.googleapis.com/css2?family=Delius&family=Delius+Unicase:wght@400;700&family=Knewave&display=swap");
+
+/* Estilos generales */
+body {
+  cursor: url(assets/icon/cursor-body.cur), auto;
+  font-family: "Delius", cursive;
+  background-color: #000; /* Fondo negro Deadpool */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #fff;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Contenedor principal */
+.container {
+  width: 600px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111; /* Fondo oscuro para la caja fuerte */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 10px 10px 12px 0px rgba(255, 0, 0, 0.5);
+}
+
+/* Caja fuerte */
+.caja-fuerte {
+  display: flex;
+  background-color: #111;
+  border: 5px solid #e60000; /* Rojo Deadpool */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+/* Imagen de la caja fuerte */
+.imagen img {
+  width: 200px;
+  height: 285px;
+  border-radius: 10px;
+  border: 3px solid #e60000;
+}
+
+/* Teclado */
+.teclado {
+  margin-left: 20px;
+}
+
+/* Estilos para el display del teclado */
+.display {
+  width: 80%;
+  height: 50px;
+  background-color: #222; /* Gris oscuro */
+  border: 1px solid #e60000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.display svg {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  color: #e60000; /* Rojo Deadpool */
+}
+
+#texto-codigo {
+  flex-grow: 1;
+  font-family: "Delius", cursive;
+  color: #fff;
+}
+
+/* Botones del teclado */
+.botones {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.botones button {
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e60000; /* Rojo Deadpool */
+  color: #000; /* Números negros para contraste */
+  cursor: url(assets/icon/love-pointer.cur), auto;
+  transition: background-color 0.3s;
+  font-family: "Delius Unicase", cursive;
+}
+
+.botones button:hover {
+  background-color: #ff1a1a;
+}
+
+/* Sección del contador */
+#seccion-contador {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background-color: #111;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px rgba(255, 0, 0, 0.5);
+  max-width: 600px;
+  width: 100%;
+  color: #fff;
+}
+
+/* Cabecera del contador */
+.cabecera {
+  display: flex;
+  align-items: center;
+  margin: 30px;
+}
+
+.imagen-cabecera {
+  width: 80px;
+  height: 80px;
+  padding: 4px;
+  border-radius: 50%;
+  border: 3px dashed #e60000;
+  margin-right: 40px;
+}
+
+.titulo-cabecera {
+  background-color: #e60000;
+  padding: 10px 40px;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.titulo-cabecera h1 {
+  margin: 2px;
+  font-size: 24px;
+  font-family: "Rubik Spray Paint", cursive;
+}
+
+/* Contador */
+#linea-superior {
+  font-size: 34px;
+  font-weight: bold;
+  color: #e60000;
+  margin-bottom: 20px;
+  font-family: "Knewave", cursive;
+}
+
+#linea-superior span {
+  margin: 0 5px;
+}
+
+#linea-inferior {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.unidad-tiempo {
+  background-color: #222;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.unidad-tiempo span {
+  font-size: 74px;
+  font-weight: bold;
+  color: #e60000;
+  display: block;
+  font-family: "Knewave", cursive;
+}
+
+.unidad-tiempo p {
+  font-size: 24px;
+  margin: 5px 0 0;
+  font-family: "Knewave", cursive;
+  color: #ff4d4d;
+}
+
+/* Botón del contador */
+.boton-contador {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  background-color: #e60000;
+  border: none;
+  border-radius: 40px;
+  color: #000;
+  font-size: 18px;
+  cursor: url(assets/icon/love-pointer.cur), auto;
+  gap: 8px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+  font-family: "Delius Unicase", cursive;
+  text-align: center;
+}
+
+.boton-contador:hover {
+  background-color: #ff1a1a;
+}
+
+.boton-contador svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Sección galería y carta */
+.seccion-galeria, .seccion-carta {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background-color: #111;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px rgba(255, 0, 0, 0.5);
+  max-width: 600px;
+  width: 100%;
+  margin: 20px auto;
+  color: #fff;
+}
+
+.titulo-galeria h1, .titulo-carta h1 {
+  font-size: 24px;
+  color: #e60000;
+  font-family: "Rubik Spray Paint", cursive;
+  margin-bottom: 20px;
+}
+
+.fotos img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #e60000;
+}
+
+.boton-transparente {
+  background-color: transparent;
+  border: 2px solid #e60000;
+  color: #e60000;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: url(assets/icon/love-pointer-q.cur), auto;
+  transition: background-color 0.3s, color 0.3s;
+  font-family: "Delius", cursive;
+}
+
+.boton-transparente:hover {
+  background-color: #e60000;
+  color: #000;
+}
+
+/* 📌 Carta en un único cuadro */
+.carta-contenedor {
+  position: relative;
+  background: #111;
+  color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px red;
+  max-width: 700px;
+  margin: auto;
+  border: 3px solid #e60000; /* borde rojo */
+  overflow: hidden;
+}
+
+.contenido-carta {
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.8;
+  font-family: "Delius", cursive;
+  text-align: justify;
+  position: relative;
+  z-index: 2;
+}
+
+.contenido-carta p {
+  margin: 15px 0;
+}
+
+/* 📌 Corazones flotando */
+.corazones {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.corazones::before,
+.corazones::after {
+  content: "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤";
+  position: absolute;
+  width: 100%;
+  font-size: 20px;
+  color: red;
+  animation: flotar 10s linear infinite;
+  opacity: 0.3;
+}
+
+.corazones::after {
+  bottom: -100%;
+  animation-delay: 5s;
+}
+
+@keyframes flotar {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-200%); }
+}
+
+/* 📌 Botón de volver en carta */
+.seccion-carta button {
+  background-color: #e60000;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 18px;
+  color: #000;
+  margin-top: 20px;
+  cursor: url(assets/icon/love-pointer.cur), auto;
+  transition: background-color 0.3s;
+  font-family: "Delius Unicase", cursive;
+}
+
+.seccion-carta button:hover {
+  background-color: #ff1a1a;
+}
+
+/* ============================= */
+/* NUEVA PANTALLA DE CARGA CARTA */
+/* ============================= */
+#loadingCarta {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+}
+
+#loadingCarta.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loadingCarta .loading-heart {
+  font-size: 4rem;
+  color: #ff2d2d;
+  margin-bottom: 2rem;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+#loadingCarta .loading-bar-container {
+  width: 300px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255, 45, 45, 0.3);
+}
+
+#loadingCarta .loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #ff2d2d, #ff6666, #ff2d2d);
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 45, 45, 0.6);
+}
+
+#loadingCarta .loading-text {
+  color: #fff;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  text-shadow: 0 0 10px rgba(255, 45, 45, 0.5);
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Media queries para móviles */
+@media (max-width: 768px) {
+  .container { width: 370px; height: 400px; }
+  .imagen img { width: 100%; height: 100%; }
+  .botones { gap: 3px; }
+  #linea-superior { font-size: 26px; }
+  .unidad-tiempo span { font-size: 64px; }
+  .unidad-tiempo p { font-size: 16px; }
+
+  /* Ajuste de carta en móvil */
+  .carta-contenedor {
+    max-width: 90%;
+    padding: 15px;
+    font-size: 14px;
+  }
+}
